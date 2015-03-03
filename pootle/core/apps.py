@@ -7,18 +7,11 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-"""
-Pootle App Config
-See https://docs.djangoproject.com/en/1.7/ref/applications/
-"""
-
 from django.apps import AppConfig
-from pootle import checks
 
 
-class PootleConfig(AppConfig):
-    name = "pootle_app"
-    verbose_name = "Pootle"
+class PootleCoreConfig(AppConfig):
+    name = 'pootle'
 
     def ready(self):
-        import pootle.apps.accounts.signals
+        import pootle.core.auth.signals
