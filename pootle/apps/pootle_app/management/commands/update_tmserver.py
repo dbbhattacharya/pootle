@@ -117,11 +117,12 @@ class Command(BaseCommand):
         translations = cursor.execute(sqlquery, last_indexed_revision)
 
         i = 0
+        desc = cursor.description
         unit = translations.fetchone()
         while (unit is not None):
             i += 1
 
-            unit.keys()
+            unit = dict(zip([col[0] for col in desc], unit))
             fullname = unit['full_name'] or unit['username']
             email_md5 = None
             if unit['email']:
