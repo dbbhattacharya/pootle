@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
 from elasticsearch import Elasticsearch
@@ -9,8 +10,6 @@ import sys
 from hashlib import md5
 from optparse import make_option
 
-# Hardcoded see config INDEX_NAME
-INDEX_NAME = 'translations'
 BULK_CHUNK_SIZE = 5000
 
 
@@ -40,7 +39,12 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-        es = Elasticsearch()
+        INDEX_NAME = settings.POOTLE_TM_SERVER['default']['INDEX_NAME']
+        es = Elasticsearch([
+            {'host': settings.POOTLE_TM_SERVER['default']['HOST'],
+             'port': settings.POOTLE_TM_SERVER['default']['PORT']
+            },
+        ])
 
         last_indexed_revision = (-1, )
 
