@@ -39,6 +39,8 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
+        if not getattr(settings, 'POOTLE_TM_SERVER', False):
+            raise CommandError("POOTLE_TM_SERVER is missing from your settings.")
         INDEX_NAME = settings.POOTLE_TM_SERVER['default']['INDEX_NAME']
         es = Elasticsearch([
             {'host': settings.POOTLE_TM_SERVER['default']['HOST'],
