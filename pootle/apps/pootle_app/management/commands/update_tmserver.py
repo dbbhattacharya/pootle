@@ -23,6 +23,8 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
 
+from pootle_store.models import Unit
+
 
 BULK_CHUNK_SIZE = 5000
 
@@ -86,21 +88,9 @@ class Command(BaseCommand):
 
         self.stdout.write("Last indexed revision = %s" % last_indexed_revision)
 
-        sqlquery = """
-        SELECT COUNT(*)
-        FROM pootle_store_unit
-        WHERE target_f IS NOT NULL AND target_f != ''
-        AND revision > ?
-        """
-
-        cursor = connection.cursor()
-        result = cursor.execute(sqlquery, last_indexed_revision)
-
-        total = 0
-
-        count = result.fetchone()
-        if count:
-            total = count[0]
+        total = Unit.objects.exclude(target_f__isnull=True) \
+                            .exclude(target_f__exact='') \
+                            .filter(revision__gt=last_indexed_revision).count()
 
         if not total:
             self.stdout.write("No translations to index")
