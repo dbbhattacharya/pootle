@@ -63,7 +63,7 @@ class Command(BaseCommand):
             },
         ])
 
-        last_indexed_revision = (-1, )
+        last_indexed_revision = -1
 
         if options['rebuild'] and not options['dry_run']:
             es.indices.delete(index=INDEX_NAME)
@@ -84,7 +84,7 @@ class Command(BaseCommand):
                     }
                 }
             )
-            last_indexed_revision = (result['facets']['stat1']['max'], )
+            last_indexed_revision = result['facets']['stat1']['max']
 
         self.stdout.write("Last indexed revision = %s" % last_indexed_revision)
 
@@ -117,7 +117,7 @@ class Command(BaseCommand):
         """
 
         cursor = connection.cursor()
-        translations = cursor.execute(sqlquery, last_indexed_revision)
+        translations = cursor.execute(sqlquery, (last_indexed_revision, ))
 
         i = 0
         desc = cursor.description
