@@ -152,11 +152,11 @@ class Command(BaseCommand):
 
             if ((i % 1000 == 0) or (i == total)):
                 percent = "%.1f" % (i / total * 100)
-                self.stdout.write("%s (%s%%)" % (i, percent), end="")
+                self.stdout.write("%s (%s%%)" % (i, percent))
 
             unit = translations.fetchone()
 
-        self.stdout.write()
+        self.stdout.write("")
 
         if (i != total):
             self.stdout.write("Oops.  Stopped at i = %s" % i)
