@@ -92,7 +92,7 @@ class Command(BaseCommand):
                                .exclude(target_f__exact='') \
                                .filter(revision__gt=last_indexed_revision)
 
-        total = units_qs.count()
+        total = len(units_qs)
 
         if not total:
             self.stdout.write("No translations to index")
