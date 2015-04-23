@@ -2,13 +2,19 @@
 
 from __future__ import print_function
 
+from hashlib import md5
+from optparse import make_option
+import os
+import sys
+
+# This must be run before importing Django.
+os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
+
+from elasticsearch import Elasticsearch
+
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
-from elasticsearch import Elasticsearch
-import sys
-from hashlib import md5
-from optparse import make_option
 
 BULK_CHUNK_SIZE = 5000
 
