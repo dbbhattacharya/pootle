@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) Pootle contributors.
+#
+# This file is a part of the Pootle project. It is distributed under the GPL3
+# or later license. See the LICENSE file for a copy of the license and the
+# AUTHORS file for copyright and authorship information.
 
 from __future__ import print_function
 
@@ -16,8 +23,8 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection
 
-BULK_CHUNK_SIZE = 5000
 
+BULK_CHUNK_SIZE = 5000
 
 
 class Command(BaseCommand):
@@ -77,7 +84,7 @@ class Command(BaseCommand):
             )
             last_indexed_revision = (result['facets']['stat1']['max'], )
 
-        print("Last indexed revision = %s" % last_indexed_revision)
+        self.stdout.write("Last indexed revision = %s" % last_indexed_revision)
 
         sqlquery = """
         SELECT COUNT(*)
@@ -98,8 +105,8 @@ class Command(BaseCommand):
         if not total:
             self.stdout.write("No translations to index")
             sys.exit()
-        else:
-            self.stdout.write("%s translations to index" % total)
+
+        self.stdout.write("%s translations to index" % total)
 
         if options['dry_run']:
             sys.exit()
