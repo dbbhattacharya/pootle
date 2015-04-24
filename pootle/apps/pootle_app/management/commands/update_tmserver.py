@@ -90,9 +90,9 @@ class Command(BaseCommand):
 
 
         units_qs = Unit.simple_objects \
-            .exclude(target_f__isnull=True) \
             .exclude(target_f__exact='') \
-            .filter(revision__gt=last_indexed_revision) \
+            .filter(target_f__isnull=False,
+                    revision__gt=last_indexed_revision) \
             .select_related(
                 'submitted_by',
                 'store',
