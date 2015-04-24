@@ -150,7 +150,7 @@ class Command(BaseCommand):
             )
 
             if ((i % 1000 == 0) or (i == total)):
-                percent = "%.1f" % (i / total * 100)
+                percent = "%.1f" % (i * 100.0 / total)
                 self.stdout.write("%s (%s%%)" % (i, percent))
 
         self.stdout.write("")
