@@ -109,7 +109,7 @@ class Command(BaseCommand):
                 'store__translation_project__project__fullname',
                 'store__pootle_path',
                 'store__translation_project__language__code'
-            )
+            ).order_by()
 
         total = len(units_qs)
 
