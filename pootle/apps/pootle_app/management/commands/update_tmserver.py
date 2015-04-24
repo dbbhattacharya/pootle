@@ -65,7 +65,8 @@ class Command(BaseCommand):
         last_indexed_revision = -1
 
         if options['rebuild'] and not options['dry_run']:
-            es.indices.delete(index=INDEX_NAME)
+            if es.indices.exists(INDEX_NAME):
+                es.indices.delete(index=INDEX_NAME)
 
         if not options['rebuild'] and not options['overwrite']:
             result = es.search(
