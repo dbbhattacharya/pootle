@@ -88,11 +88,11 @@ class Command(BaseCommand):
 
         self.stdout.write("Last indexed revision = %s" % last_indexed_revision)
 
-
         units_qs = Unit.simple_objects \
-            .filter(target_f__isnull=False,
-                    revision__gt=last_indexed_revision) \
-            .extra(where=["target_f <> ''"]) \
+            .filter(
+                target_f__isnull=False,
+                revision__gt=last_indexed_revision
+            ).extra(where=["target_f <> ''"]) \
             .select_related(
                 'submitted_by',
                 'store',
